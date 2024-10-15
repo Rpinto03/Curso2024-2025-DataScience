@@ -39,6 +39,9 @@ q1 = prepareQuery('''
 for r in g.query(q1):
   print(r.Subclass)
 
+for s,p,o in g.triples((None, RDFS.subClassOf, ns.LivingThing)):
+  print(s)
+
 """**TASK 7.2: List all individuals of "Person" with RDFLib and SPARQL (remember the subClasses)**
 
 """
@@ -46,15 +49,28 @@ for r in g.query(q1):
 # TO DO
 q2 = prepareQuery('''
   SELECT ?individuals WHERE {
-    ?individuals a ns:Person.
+    {
+      ?individuals a ns:Person.
+    }
+  UNION
+    {
+      ?Class rdfs:subClassOf ns:Person.
+      ?individuals a ?Class.
+    }
   }
   ''',
-  initNs = { "ns" : ns}
+  initNs = { "ns" : ns, "rdfs" : RDFS}
 )
 
 # Visualize the results
 for r in g.query(q2):
   print(r.individuals)
+
+for s, p, o in g.triples((None, RDF.type, ns.Person)):
+  print(s)
+for s, p, o in g.triples((None, RDFS.subClassOf, ns.Person)):
+  for h, i, j in g.triples((None, RDF.type, s)):
+    print(h)
 
 """**TASK 7.3: List all individuals of just "Person" or "Animal". You do not need to list the individuals of the subclasses of person (in SPARQL only)**
 
@@ -70,7 +86,6 @@ q3 = prepareQuery('''
   ''',
   initNs = {"ns" : ns}
 )
-# Visualize the results
 for r in g.query(q3):
   print(r.individuals)
 
