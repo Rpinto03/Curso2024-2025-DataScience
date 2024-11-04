@@ -2,6 +2,6 @@
 
 Nombre: Rodrigo Pinto Aguilera User: Rpinto03
 
-## Miembro
+## Miembros
 
 Nombre: Daniel Barahona Moreno User: daniel-barahona
